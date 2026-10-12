@@ -38,6 +38,7 @@
   --blue-tint: #EEF6FC;
   --line: #DCE6EA;
   --chart: #F3F7F9;
+  --coral: #F0937B;
   --buy: #0F6E56;   --buy-bg: #E3F4EC;
   --sell: #A32D2D;  --sell-bg: #FBEAEA;
   --wait: #4A5F63;  --wait-bg: #EEF1F2;
@@ -141,6 +142,8 @@ section.grp { scroll-margin-top: 70px; }
 a.pill { text-decoration: none; }
 .pill.tum { background: var(--ink); color: #fff; }
 .pill.tum:hover { background: var(--label); }
+.pill.petch { background: var(--coral); color: var(--ink); }
+.pill.petch:hover { background: #E87E63; }
 .row { scroll-margin-top: 70px; }
 .row:target { background: var(--blue-tint); box-shadow: 0 0 0 8px var(--blue-tint); border-radius: 6px; }
 .g { display: grid; gap: 10px; font-size: 13.5px; line-height: 1.5; }
@@ -205,6 +208,7 @@ details.how li, .notes li { margin: 3px 0; }
     <button class="tab" role="tab" id="tab-charts" aria-controls="panel-charts" aria-selected="true">All signals by charts<span class="n" id="n-charts"></span></button>
     <button class="tab" role="tab" id="tab-actions" aria-controls="panel-actions" aria-selected="false" tabindex="-1">Signals by actions<span class="n" id="n-actions"></span></button>
     <button class="tab" role="tab" id="tab-tum" aria-controls="panel-tum" aria-selected="false" tabindex="-1">Tum's system<span class="n" id="n-tum"></span></button>
+    <button class="tab" role="tab" id="tab-petch" aria-controls="panel-petch" aria-selected="false" tabindex="-1">P'Petch's system<span class="n" id="n-petch"></span></button>
   </div>
 </nav>
 
@@ -216,7 +220,7 @@ details.how li, .notes li { margin: 3px 0; }
       <li><b>Price action</b> คือสิ่งที่ราคากำลังทำอยู่เบื้องหลังสิ่งที่เห็น และ <b>แปลว่าอะไร</b> คือข้อสรุป</li>
       <li><b>Trader action</b> แบ่งเป็น Spot (มีของ / ไม่มีของ) และ Futures (Short / Long)</li>
       <li>สีในภาพ: <span class="sw" style="background:#E24B4A"></span>EMA 10 &nbsp; <span class="sw" style="background:#378ADD"></span>เส้น MACD &nbsp; <span class="sw" style="background:#EF9F27"></span>Signal และค่าเฉลี่ยของ RSI &nbsp; <span class="sw" style="background:#7F77DD"></span>RSI</li>
-      <li>ป้าย <span class="pill tum">Tum's</span> คือสัญญาณที่เป็นขั้นตอนในแท็บ Tum's system โดยตรง กดป้ายเพื่อไปที่ขั้นตอนนั้น</li>
+      <li>ป้าย <span class="pill tum">Tum's</span> คือสัญญาณที่เป็นขั้นตอนในแท็บ Tum's system โดยตรง กดป้ายเพื่อไปที่ขั้นตอนนั้น ป้าย <span class="pill petch">P'Petch's</span> ใช้แบบเดียวกันกับแท็บ P'Petch's system</li>
       <li>ทุกสัญญาณนับเมื่อแท่งปิดแล้วเท่านั้น</li>
     </ul>
     <ul data-l="en">
@@ -224,7 +228,7 @@ details.how li, .notes li { margin: 3px 0; }
       <li><b>Price action</b> is what price is doing behind what you see, and <b>What it means</b> is the conclusion.</li>
       <li><b>Trader action</b> is split into Spot (holding / not holding) and Futures (Short / Long).</li>
       <li>Colors in the images: <span class="sw" style="background:#E24B4A"></span>EMA 10 &nbsp; <span class="sw" style="background:#378ADD"></span>MACD line &nbsp; <span class="sw" style="background:#EF9F27"></span>Signal and the RSI average &nbsp; <span class="sw" style="background:#7F77DD"></span>RSI</li>
-      <li>The <span class="pill tum">Tum's</span> tag marks a signal that is itself a step in the Tum's system tab. Select the tag to jump to that step.</li>
+      <li>The <span class="pill tum">Tum's</span> tag marks a signal that is itself a step in the Tum's system tab. Select the tag to jump to that step. The <span class="pill petch">P'Petch's</span> tag works the same way for the P'Petch's system tab.</li>
       <li>Every signal counts only after the candle closes.</li>
     </ul>
   </details>
@@ -232,6 +236,7 @@ details.how li, .notes li { margin: 3px 0; }
   <div id="panel-charts" role="tabpanel" aria-labelledby="tab-charts"></div>
   <div id="panel-actions" role="tabpanel" aria-labelledby="tab-actions" hidden></div>
   <div id="panel-tum" role="tabpanel" aria-labelledby="tab-tum" hidden></div>
+  <div id="panel-petch" role="tabpanel" aria-labelledby="tab-petch" hidden></div>
 
   <div class="notes">
     <h2><span data-l="th">หมายเหตุ</span><span data-l="en">Notes</span></h2>
@@ -245,6 +250,7 @@ details.how li, .notes li { margin: 3px 0; }
       <li>ช่อง Futures Short: Playbook มีกฎ Short ข้อเดียว คือเล่นเมื่อ Day ทำไฮต่ำลงและโลว์ต่ำลง ที่เหลือเป็นการกลับด้านของฝั่ง Long ตามตำรา ควรให้พี่เพชรดูก่อนใช้จริง</li>
       <li>ยังไม่รวม Convergence และ Dow Theory เพราะยังไม่ได้เรียน</li>
       <li>แท็บ Tum's system มาจากสรุปขั้นตอนของตั้ม ช่อง Price action เป็นคำอธิบายของหน้านี้ ไม่ได้อยู่ในสรุป และสูตร Position Size ในสรุปเว้นว่างไว้ จึงใช้สูตรจาก Playbook</li>
+      <li>แท็บ P'Petch's system มาจากส่วนของพี่เพชรใน Playbook ซึ่งตรวจกับไฟล์ถอดเสียงคลาสของพี่เพชรแล้ว ช่อง Price action และช่อง Trader action เป็นคำอธิบายของหน้านี้ สัญญาณกดซื้อที่แน่ชัดของ Day จุด Stop Loss ของ Day และกฎ Short แบบเต็ม ยังไม่ได้เรียน</li>
       <li>หน้านี้ใช้ฝึกอ่านกราฟ ไม่ใช่คำแนะนำให้ซื้อขาย</li>
     </ul>
     <ul data-l="en">
@@ -257,6 +263,7 @@ details.how li, .notes li { margin: 3px 0; }
       <li>Futures Short column: the Playbook has one short rule, which is to short when Day makes lower highs and lower lows. The rest mirrors the long side from textbooks and should be reviewed by P'Petch before real use.</li>
       <li>Convergence and Dow Theory are not included yet because they haven't been taught.</li>
       <li>The Tum's system tab follows Tum's step summary. The Price action column is this page's explanation and isn't in the summary. The Position Size formula was blank in the summary, so it uses the one from the Playbook.</li>
+      <li>The P'Petch's system tab comes from the P'Petch parts of the Playbook, which were checked against the transcript of P'Petch's class. The Price action and Trader action columns are this page's explanation. The exact Day buy trigger, the Day stop loss and the full short rules haven't been taught yet.</li>
       <li>This page is for practicing chart reading. It is not investment advice.</li>
     </ul>
   </div>
@@ -302,6 +309,13 @@ function draw(ops) {
     else if (k === 'gap') {
       const x = X(o[1]), y1 = Y(o[2]) + 2, y2 = Y(o[3]) - 2;
       s += `<path d="M${x - 3} ${y1}H${x + 3}M${x} ${y1}V${y2}M${x - 3} ${y2}H${x + 3}" fill="none" stroke="${P}" stroke-width="1.2"/><text x="${x - 6}" y="${(y1 + y2) / 2}" text-anchor="end" dominant-baseline="central" font-size="11" fill="${P}">${lab(o[4])}</text>`;
+    }
+    else if (k === 'band') {
+      const x1 = o[3] == null ? 4 : X(o[3]), x2 = o[4] == null ? W - 4 : X(o[4]);
+      s += `<rect x="${x1}" y="${Y(o[1] + o[2] / 2)}" width="${x2 - x1}" height="${o[2] * 0.76}" rx="2" fill="#FAC775" opacity=".8"/>`;
+    }
+    else if (k === 'tx') {
+      o[1].forEach((t, j) => { s += `<text x="${W / 2}" y="${40 + j * 22}" text-anchor="middle" font-size="12" fill="${P}">${lab(t)}</text>`; });
     }
     else if (k === 'frac') {
       s += `<text x="${W / 2}" y="36" text-anchor="middle" font-size="12" fill="${P}">${lab(o[1])}</text><line x1="30" x2="${W - 30}" y1="46" y2="46" stroke="${P}" stroke-width="1.2"/><text x="${W / 2}" y="64" text-anchor="middle" font-size="12" fill="${P}">${lab(o[2])}</text>`;
@@ -458,7 +472,7 @@ function row(i, view) {
   const pill = view === 'charts'
     ? `<span class="pill ${r[6]}">${S.act[r[6]][2]}</span>`
     : `<span class="pill">${S.pane[r[5]]}</span>`;
-  return `<div class="row" data-i="${i}">${draw(r[4])}<div><div class="a">${t[0]}${pill}${tumTag(i)}</div>`
+  return `<div class="row" data-i="${i}">${draw(r[4])}<div><div class="a">${t[0]}${pill}${sysTags(i)}</div>`
     + `<div class="g g2">${cell(S.pa, t[1])}${cell(S.mean, t[2])}</div>`
     + `<div class="g g4">${t[3].map((v, j) => cell(S.lbl[j], v)).join('')}</div></div></div>`;
 }
@@ -471,7 +485,7 @@ function renderCharts() {
     const sub = c.panes.length > 1 ? c.panes.map(p => `${S.pane[p]} ${n(r => r[5] === p)}`).join(' · ') : S.word;
     h += `<a class="count" href="#c-${c.id}"><span class="num">${n(r => c.panes.includes(r[5]))}</span><span class="lab">${S.chart[c.id][1]}</span><span class="sub">${sub}</span></a>`;
   }
-  h += `</div><p class="total">${S.totalCharts(ROWS.length)} · ${S.tum.tagged(Object.keys(TUM_MATCH).length)}</p>`;
+  h += `</div><p class="total">${S.totalCharts(ROWS.length)} · ${S.tum.tagged(Object.keys(TUM_MATCH).length)} · ${S.petch.tagged(Object.keys(PETCH_MATCH).length)}</p>`;
   for (const c of CHARTS) {
     h += `<section class="grp" id="c-${c.id}"><div class="sec"><h2>${S.chart[c.id][0]}</h2><span class="cnt">${S.count(n(r => c.panes.includes(r[5])))}</span></div>`;
     for (const p of c.panes) {
@@ -489,7 +503,7 @@ function renderActions() {
   const S = STR[lang];
   let h = '<div class="counts">';
   for (const a of ACTIONS) h += `<a class="count ${a}" href="#a-${a}"><span class="num">${n(r => r[6] === a)}</span><span class="lab">${S.act[a][1]}</span><span class="sub">${S.act[a][3]}</span></a>`;
-  h += `</div><p class="total">${S.totalActions(ROWS.length)} · ${S.tum.tagged(Object.keys(TUM_MATCH).length)}</p>`;
+  h += `</div><p class="total">${S.totalActions(ROWS.length)} · ${S.tum.tagged(Object.keys(TUM_MATCH).length)} · ${S.petch.tagged(Object.keys(PETCH_MATCH).length)}</p>`;
   for (const a of ACTIONS) {
     const rows = IDX.filter(i => ROWS[i][6] === a);
     h += `<section class="grp" id="a-${a}"><div class="sec ${a}"><h2>${S.act[a][0]}</h2><span class="cnt">${S.count(rows.length)}</span><span class="hint">${S.act[a][3]}</span></div>`;
@@ -670,44 +684,176 @@ const TUM_MATCH = {
   28: [10],          /* histogram bars getting shorter: the Week pullback before entry */
   29: [1]            /* RSI above 70: Month get ready */
 };
-function tumWhere(j) {
-  const r = TUM[j], S = STR[lang].tum, same = TUM.map((_, i) => i).filter(i => TUM[i].sec === r.sec && TUM[i].sub === r.sub);
+/* ---------- Tab 4: P'Petch's system ----------
+   P'Petch's Day-chart read for timing and targets, from the P'Petch parts of the Playbook.
+   It covers both sides, so rows have all four trader-action cells.
+   Each row: section, step group, sample chart, then Thai and English text as
+   [what to look at, field 1, field 2, [spot holding, spot not holding, futures short, futures long]].
+   L sets other field labels for a row: 'fk' for how / what it's for, or its own pair. */
+const PETCH_SECS = [
+  { id: 'd', subs: ['read', 'trade'] },
+  { id: 'h', subs: ['heat'] },
+  { id: 's', subs: ['short'] }
+];
+const PETCH = [
+/* Day chart: read in order */
+{ sec: 'd', sub: 'read',
+  d: [['h',80,'แนวต้าน'],['l',[[0,24],[30,52],[50,42],[80,74]],P]],
+  th: ['แนวต้านถัดไปอยู่ตรงไหน','ราคายังไม่ทะลุแนวต้าน อาจขึ้นต่อ หรือโดนตบลงตรงนั้นก็ได้','นี่คือเป้าแรก',['ตั้งเป้าขายแรกที่แนวต้าน','ใช้แนวต้านเป็นเป้าแรกของแผน','เฝ้าดูว่าโดนตบลงที่แนวต้านไหม','ใช้แนวต้านเป็นเป้าแรก']],
+  en: ['Where is the next resistance?','Price hasn\'t broken resistance yet; it may keep rising or get knocked back there','This is the first target',['Set the first sell target at resistance','Use resistance as the plan\'s first target','Watch whether price gets knocked back at resistance','Use resistance as the first target']] },
+{ sec: 'd', sub: 'read',
+  d: [Z,['b',[-5,-6,-4,-3,-1,2,4,6]],['l',[[0,44],[50,45],[100,52]],C.o],['l',[[0,34],[50,40],[100,62]],C.b]],
+  th: ['MACD ตัดเส้น Signal','ตัดขึ้น ราคาเริ่มขึ้นเร็วกว่าช่วงที่ผ่านมา ตัดลง ราคาเริ่มอ่อนแรง','ตัดขึ้น เทรนด์กำลังกลับเป็นขาขึ้น ตัดลง เทรนด์กำลังกลับเป็นขาลง',['ตัดลง: เตรียมจุดออก','ตัดขึ้น: เริ่มมองหาจุดซื้อ','ตัดลง: เริ่มมองหาจุด Short','ตัดขึ้น: เริ่มมองหาจุดเปิด']],
+  en: ['MACD crosses the Signal line','Crossing up: price is starting to rise faster. Crossing down: price is starting to weaken','Crossing up: the trend is turning up. Crossing down: the trend is turning down',['Crossing down: prepare your exit','Crossing up: start looking for a buy','Crossing down: start looking for a short','Crossing up: start looking for an entry']] },
+{ sec: 'd', sub: 'read',
+  d: [['h',70,'70'],['l',[[0,36],[35,50],[60,46],[100,66]],C.p]],
+  th: ['RSI ต่ำกว่า 70 หรือถึง 70','ต่ำกว่า 70 ราคายังไม่ตึง ถึง 70 ราคาขึ้นเร็วและแรงจนตึง','ต่ำกว่า 70 ยังมีที่ให้ไปต่อ ถึง 70 คือ Overbought',['ถึง 70: เตรียมขาย','ถึง 70: หยุดซื้อ','ถึง 70: เริ่มมองหาจุด Short','ถึง 70: หยุดเปิดเพิ่ม']],
+  en: ['RSI below 70, or at 70','Below 70, price isn\'t stretched yet; at 70 it has risen fast and hard enough to be stretched','Below 70 there\'s still room to go; 70 is overbought',['At 70: get ready to sell','At 70: stop buying','At 70: start looking for a short','At 70: stop adding']] },
+{ sec: 'd', sub: 'read',
+  d: [['l',[[0,18],[22,50],[38,36],[60,70],[76,56],[100,90]],P]],
+  th: ['โครงสร้างราคา: ยกโลว์ ยกไฮ หรือไฮต่ำลง โลว์ต่ำลง','จุดต่ำและจุดสูงใหม่ สูงกว่ารอบก่อน หรือต่ำกว่ารอบก่อน','ยกโลว์ ยกไฮ โมเมนตัมเป็นขาขึ้น เล่นย่อซื้อได้เปรียบกว่า ไฮต่ำลง โลว์ต่ำลง โมเมนตัมเป็นขาลง',['ขาขึ้น: ถือต่อ','ขาขึ้น: ซื้อตอนย่อ','ขาลง: Short ได้ (ดูหมวด 3)','ขาขึ้น: เปิดตอนย่อ']],
+  en: ['Price structure: higher lows and higher highs, or lower highs and lower lows','New lows and highs are above the previous ones, or below them','Higher lows and highs: momentum is up and buying pullbacks has the edge. Lower highs and lows: momentum is down',['Uptrend: hold','Uptrend: buy the pullback','Downtrend: can short (see section 3)','Uptrend: open on the pullback']] },
+{ sec: 'd', sub: 'read',
+  d: [['l',[[30,90],[70,90]],M,1],['l',[[0,62],[30,90],[50,72],[70,90],[85,78],[100,86]],P],['l',[[30,44],[70,32]],M,1],['l',[[0,16],[30,44],[50,26],[70,32],[85,22],[100,28]],C.p]],
+  th: ['4H: Double Top พร้อม RSI Divergence','ราคาขึ้นไปชนระดับเดิมสองครั้ง ขณะที่ RSI ไม่ทำจุดสูงใหม่','น่าจะย่อ ถ้าย่อแล้วยังยกโลว์ คือจังหวะย่อซื้อ ไม่ใช่การกลับตัว Divergence เป็นสัญญาณเตือน ไม่ใช่ตัวจับเวลา',['ถือ ดูว่าย่อแล้วยังยกโลว์ไหม','รอย่อ ซื้อถ้ายังยกโลว์','ไม่ Short ถ้าย่อแล้วยังยกโลว์','รอย่อ เปิดถ้ายังยกโลว์']],
+  en: ['4H: Double Top with RSI divergence','Price hit the same level twice while RSI didn\'t make a new high','A pullback is likely. If it pulls back and still makes a higher low, that\'s a buy-the-dip moment, not a reversal. Divergence is a warning, not a timer',['Hold; check whether the pullback still makes a higher low','Wait for the pullback; buy if it still makes a higher low','Don\'t short if the pullback still makes a higher low','Wait for the pullback; open if it still makes a higher low']] },
+
+/* Day chart: entry and exit */
+{ sec: 'd', sub: 'trade',
+  d: [['l',[[0,92],[25,70],[45,82],[65,74],[100,94]],P],['h',12,'30'],['l',[[0,26],[25,8],[45,18],[65,9],[90,16]],C.p]],
+  th: ['เข้า: กราฟ Day Oversold และราคายังยกโลว์','ราคาลงเร็วจน RSI ตึง แต่โลว์ใหม่ยังสูงกว่าโลว์เดิม','จุดซื้อของ Day สัญญาณกดซื้อที่แน่ชัดยังต้องถามพี่เพชร',['ซื้อเพิ่มได้ตามแผน','ซื้อ ตั้ง Stop Loss ก่อน','ทยอยปิดทำกำไร','เปิด Long ตั้ง Stop Loss ก่อน']],
+  en: ['Entry: Day is oversold and price still makes higher lows','Price fell fast enough to stretch RSI, but the new low is still above the previous one','The Day buy point. The exact buy trigger is still a question for P\'Petch',['Add as planned','Buy; set the stop loss first','Take profit gradually','Open a long; set the stop loss first']] },
+{ sec: 'd', sub: 'trade',
+  d: [['h',84,'แนวต้าน'],['l',[[0,30],[30,50],[50,44],[78,82],[100,70]],P]],
+  th: ['ออก: กราฟ Day Overbought หรือราคาติดแนวต้าน','ราคาขึ้นเร็วจน RSI ตึง หรือขึ้นไปชนแนวต้าน','จุดขายของ Day',['ขาย','ไม่ซื้อ','เริ่มมองหาจุด Short (ดูหมวด 3)','ปิดทำกำไร']],
+  en: ['Exit: Day is overbought, or price hits resistance','Price rose fast enough to stretch RSI, or ran into resistance','The Day sell point',['Sell','Don\'t buy','Start looking for a short (see section 3)','Take profit']] },
+
+/* Liquidation Heatmap: targets */
+{ sec: 'h', sub: 'heat',
+  d: [['band',84,8],['band',16,8],['l',[[0,46],[30,56],[50,50],[80,72]],P]],
+  th: ['แถบสีเหลืองใน Liquidation Heatmap','โซนที่คนเปิด Leverage จะโดนล้างพอร์ตเยอะ ราคามักวิ่งไปหาสภาพคล่อง','แถบด้านบนคือเป้าของฝั่ง Long แถบด้านล่างคือเป้าของฝั่ง Short',['ใช้แถบด้านบนเป็นเป้าขาย','ใช้แถบด้านบนเป็นเป้าในแผน','ใช้แถบด้านล่างเป็นเป้าปิด Short','ใช้แถบด้านบนเป็นเป้าปิด Long']],
+  en: ['Yellow bands on the Liquidation Heatmap','Zones where many leveraged positions would be liquidated; price tends to run toward liquidity','The upper band is the target for longs; the lower band is the target for shorts',['Use the upper band as the sell target','Use the upper band as the plan\'s target','Use the lower band as the target to close the short','Use the upper band as the target to close the long']] },
+{ sec: 'h', sub: 'heat', L: 'fk',
+  d: [['band',80,8,0,46],['band',30,8,0,46],['band',80,8,54,100],['band',56,8,54,100],['h',80]],
+  th: ['เทียบมากกว่าหนึ่งช่วงเวลาย้อนหลัง','ดูโซนเดียวกันในหลายช่วงเวลาย้อนหลัง ก่อนจะเชื่อโซนไหน','กรองโซนที่เชื่อถือได้',['ใช้โซนที่ซ้ำกันหลายช่วงเวลา','ใช้โซนที่ซ้ำกันหลายช่วงเวลา','ใช้โซนที่ซ้ำกันหลายช่วงเวลา','ใช้โซนที่ซ้ำกันหลายช่วงเวลา']],
+  en: ['Compare more than one lookback period','Check the same zone across several lookback periods before trusting it','Filters out zones you can\'t rely on',['Use zones that repeat across periods','Use zones that repeat across periods','Use zones that repeat across periods','Use zones that repeat across periods']] },
+{ sec: 'h', sub: 'heat', L: 'fk',
+  d: [['band',58,6],['band',72,6],['band',86,6],['l',[[0,24],[30,40],[45,34],[100,90]],P]],
+  th: ['แบ่งไม้ Take Profit ตามโซนเป็นขั้นๆ','ไม่ปิดทั้งหมดที่ราคาเดียว ปิดทีละส่วนตามแถบสีเหลือง','กำหนดจุดทำกำไร',['ขายทีละส่วนตามโซน','วางแผนจุดขายเป็นขั้นตั้งแต่ตอนซื้อ','ปิด Short ทีละส่วนตามโซนด้านล่าง','ปิด Long ทีละส่วนตามโซนด้านบน']],
+  en: ['Split the take profit across zones','Don\'t close everything at one price; close part at each yellow band','Decides where to take profit',['Sell in parts at each zone','Plan the staged exits when you buy','Close the short in parts at the lower zones','Close the long in parts at the upper zones']] },
+
+/* Long and short */
+{ sec: 's', sub: 'short',
+  d: [['l',[[0,90],[22,58],[38,72],[60,38],[76,52],[100,18]],P]],
+  th: ['Short ได้เมื่อ Day ทำไฮต่ำลงและโลว์ต่ำลง','จุดสูงและจุดต่ำใหม่ ต่ำกว่ารอบก่อน','ถ้ายังไม่ทำแบบนี้ ยังไม่ Short เล่นฝั่ง Long ต่อไป',['ออกตามแผน','ไม่ซื้อ','เปิด Short ได้ เป้าที่แนวรับหรือสภาพคล่องด้านล่าง','ไม่เปิด']],
+  en: ['Short only when Day makes lower highs and lower lows','New highs and lows are below the previous ones','Until it does, don\'t short; keep playing the long side',['Exit as planned','Don\'t buy','Can open a short; target support or the liquidity below','Don\'t open']] },
+{ sec: 's', sub: 'short', L: 'fk',
+  d: [['band',78,8],['h',90,'SL'],['l',[[0,36],[30,52],[52,80],[70,58],[100,36]],P]],
+  th: ['Short ที่โซนสภาพคล่องด้านบน','เข้าหลังจากราคาขึ้นไปเก็บโซนนั้นแล้ว และวาง Stop Loss เหนือโซนไว้หน่อย','จุดเข้า Short และจุด Stop Loss',['ขายที่โซนด้านบน','ไม่ซื้อไล่ขึ้นไปที่โซน','เปิด Short หลังราคาเก็บโซนแล้ว Stop Loss เหนือโซน','ปิดทำกำไรที่โซน']],
+  en: ['Shorting at the upper liquidity zone','Enter after price has run up and taken that zone, with the stop loss a little above it','Where to enter the short and place its stop',['Sell at the upper zone','Don\'t chase up into the zone','Open the short after price takes the zone; stop loss above it','Take profit at the zone']] },
+{ sec: 's', sub: 'short', L: { th: ['คืออะไร', 'ทำไมสำคัญ'], en: ['What it is', 'Why it matters'] },
+  d: [['tx',['Futures 1x','≈ Spot + Short']]],
+  th: ['Futures ที่ Leverage 1 เท่า','ทำงานเหมือน Spot แต่เล่น Short ได้ด้วย','Spot ได้กำไรเฉพาะตอนราคาขึ้น รอบให้เล่นจึงน้อย เงินน้อยแต่อยากได้กำไรเยอะต้องใช้ Leverage สูงมาก และนั่นคือทางที่ทำให้พอร์ตแตก',['ใช้ Spot ตามเดิม','ใช้ Spot หรือ Futures 1 เท่า','ใช้ Futures เพื่อ Short โดยไม่ใช้ Leverage สูง','ไม่ใช้ Leverage สูง']],
+  en: ['Futures at 1x leverage','Works like Spot, but you can also short','Spot only profits when price rises, so there are fewer rounds to play. Small capital chasing big profit needs very high leverage, and that\'s how accounts blow up',['Keep using Spot','Use Spot or 1x Futures','Use Futures to short without high leverage','Don\'t use high leverage']] }
+];
+
+STR.th.petch = {
+  intro: 'วิธีอ่านกราฟ Day ของพี่เพชร ใช้จับจังหวะและหาเป้า Day กำหนดทิศทาง 4H และ 1H ไว้หาจังหวะย่อ ส่วน 15 นาทีและ 5 นาทีเป็นของสายเทรดสั้นที่ต้องเฝ้าจอทั้งวัน ซึ่งไม่ใช่เรา',
+  sec: {
+    d: ['1. กราฟ Day', 'กราฟ Day', 'อ่านตามลำดับ แล้วเข้าและออกตามกฎของ Day'],
+    h: ['2. Liquidation Heatmap', 'Liquidation Heatmap', 'หาโซนเป้าหมาย (คริปโต ดูใน Coinglass)', 'เป้าหมาย'],
+    s: ['3. Long กับ Short', 'Long กับ Short', 'Short คือการเทรดแบบเดียวกันแต่กลับหัว', 'ฝั่ง Short']
+  },
+  sub: {
+    'd.read': ['อ่านกราฟตามลำดับ', 'อ่านกราฟ', 'ทำตามลำดับ'],
+    'd.trade': ['เข้าและออก', 'เข้าและออก', 'ซื้อตอน Day Oversold ขายตอน Day Overbought']
+  },
+  lbl: ['Spot · มีของ', 'Spot · ไม่มีของ', 'Futures · Short', 'Futures · Long'],
+  f: ['Price action', 'แปลว่าอะไร'], fk: ['วิธีทำ', 'ใช้ทำอะไร'],
+  all: '',
+  count: k => `${k} ข้อ`,
+  tagged: k => `ติดป้าย P'Petch's ${k} สัญญาณ`,
+  total: k => `รวม ${k} ข้อ`
+};
+STR.en.petch = {
+  intro: 'P\'Petch\'s way of reading the Day chart, for timing and targets. Day sets the direction; 4H and 1H find the pullback timing. The 15-minute and 5-minute charts belong to short-term traders who watch the screen all day, which isn\'t us.',
+  sec: {
+    d: ['1. Day chart', 'Day chart', 'Read in order, then enter and exit by the Day rule'],
+    h: ['2. Liquidation Heatmap', 'Liquidation Heatmap', 'Find target zones (crypto, on Coinglass)', 'Targets'],
+    s: ['3. Long and short', 'Long and short', 'A short is the same trade, upside down', 'The short side']
+  },
+  sub: {
+    'd.read': ['Read the chart in order', 'Read', 'In order'],
+    'd.trade': ['Entry and exit', 'Entry and exit', 'Buy when Day is oversold, sell when Day is overbought']
+  },
+  lbl: ['Spot · holding', 'Spot · not holding', 'Futures · Short', 'Futures · Long'],
+  f: ['Price action', 'What it means'], fk: ['How', 'What it\'s for'],
+  all: '',
+  count: k => k === 1 ? '1 step' : `${k} steps`,
+  tagged: k => `${k} tagged P'Petch's`,
+  total: k => `${k} steps in total`
+};
+STR.th.tum.fkSec = ['k']; STR.en.tum.fkSec = ['k'];
+
+/* Signals in the first two tabs that are themselves steps in P'Petch's system. */
+const PETCH_MATCH = {
+  6: [3],            /* higher lows, higher highs: price structure */
+  7: [3, 10],        /* lower highs, lower lows: price structure, and when shorting is allowed */
+  11: [4],           /* Double Top (4H): 4H step */
+  23: [1],           /* MACD crosses above Signal: MACD step */
+  24: [1],           /* MACD crosses below Signal: MACD step */
+  29: [2, 6],        /* RSI above 70: RSI step, and the Day exit */
+  30: [5],           /* RSI below 30: the Day entry */
+  35: [4]            /* divergence: 4H step */
+};
+
+/* ---------- Teacher systems: tabs 3 and 4 share one layout ---------- */
+const SYS = {
+  tum: { data: TUM, secs: TUM_SECS, match: TUM_MATCH, secId: 't', rowId: 'tum', tag: "Tum's" },
+  petch: { data: PETCH, secs: PETCH_SECS, match: PETCH_MATCH, secId: 'p', rowId: 'petch', tag: "P'Petch's" }
+};
+function sysWhere(key, j) {
+  const D = SYS[key].data, r = D[j], S = STR[lang][key];
+  const same = D.map((_, i) => i).filter(i => D[i].sec === r.sec && D[i].sub === r.sub);
   const sub = S.sub[r.sec + '.' + r.sub];
   return `${S.sec[r.sec][1]}${sub ? ' · ' + sub[1] : ''} ${same.indexOf(j) + 1}/${same.length}`;
 }
-function tumTag(i) {
-  const m = TUM_MATCH[i];
-  if (!m) return '';
-  const where = m.map(tumWhere).join(', ');
-  return `<a class="pill tum" href="#tum-${m[0]}" title="${where}" aria-label="Tum's: ${where}">Tum's</a>`;
+function sysTags(i) {
+  return Object.keys(SYS).map(key => {
+    const m = SYS[key].match[i];
+    if (!m) return '';
+    const where = m.map(j => sysWhere(key, j)).join(', ');
+    return `<a class="pill ${key}" href="#${SYS[key].rowId}-${m[0]}" title="${where}" aria-label="${SYS[key].tag}: ${where}">${SYS[key].tag}</a>`;
+  }).join('');
 }
-function rowTum(i, k, total) {
-  const r = TUM[i], t = r[lang], S = STR[lang].tum, F = r.sec === 'k' ? S.fk : S.f;
-  return `<div class="row" id="tum-${i}" data-i="t${i}">${draw(r.d)}<div><div class="a">${t[0]}<span class="pill">${k}/${total}</span></div>`
+function rowSys(key, i, k, total) {
+  const r = SYS[key].data[i], t = r[lang], S = STR[lang][key];
+  const F = r.L === 'fk' ? S.fk : r.L ? r.L[lang] : (S.fkSec || []).includes(r.sec) ? S.fk : S.f;
+  return `<div class="row" id="${SYS[key].rowId}-${i}" data-i="${key}${i}">${draw(r.d)}<div><div class="a">${t[0]}<span class="pill">${k}/${total}</span></div>`
     + `<div class="g g2">${cell(F[0], t[1])}${cell(F[1], t[2])}</div>`
-    + `<div class="g g4 three">${t[3].map((v, j) => cell(S.lbl[j], v)).join('')}</div></div></div>`;
+    + `<div class="g g4${S.lbl.length === 3 ? ' three' : ''}">${t[3].map((v, j) => cell(S.lbl[j], v)).join('')}</div></div></div>`;
 }
-function renderTum() {
-  const S = STR[lang].tum, cnt = f => TUM.filter(f).length;
+function renderSys(key) {
+  const D = SYS[key].data, secs = SYS[key].secs, pre = SYS[key].secId, S = STR[lang][key], cnt = f => D.filter(f).length;
   let h = `<p class="tab-intro">${S.intro}</p><div class="counts">`;
-  for (const c of TUM_SECS) {
-    const sub = c.subs.length > 1 ? c.subs.map(u => `${S.sub[c.id + '.' + u][1]} (${cnt(r => r.sec === c.id && r.sub === u)})`).join(' · ') : S.all;
-    h += `<a class="count" href="#t-${c.id}"><span class="num">${cnt(r => r.sec === c.id)}</span><span class="lab">${S.sec[c.id][1]}</span><span class="sub">${sub}</span></a>`;
+  for (const c of secs) {
+    const sub = c.subs.length > 1 ? c.subs.map(u => `${S.sub[c.id + '.' + u][1]} (${cnt(r => r.sec === c.id && r.sub === u)})`).join(' · ') : (S.sec[c.id][3] || S.all);
+    h += `<a class="count" href="#${pre}-${c.id}"><span class="num">${cnt(r => r.sec === c.id)}</span><span class="lab">${S.sec[c.id][1]}</span><span class="sub">${sub}</span></a>`;
   }
-  h += `</div><p class="total">${S.total(TUM.length)}</p>`;
-  for (const c of TUM_SECS) {
-    h += `<section class="grp" id="t-${c.id}"><div class="sec"><h2>${S.sec[c.id][0]}</h2><span class="cnt">${S.count(cnt(r => r.sec === c.id))}</span><span class="hint">${S.sec[c.id][2]}</span></div>`;
+  h += `</div><p class="total">${S.total(D.length)}</p>`;
+  for (const c of secs) {
+    h += `<section class="grp" id="${pre}-${c.id}"><div class="sec"><h2>${S.sec[c.id][0]}</h2><span class="cnt">${S.count(cnt(r => r.sec === c.id))}</span><span class="hint">${S.sec[c.id][2]}</span></div>`;
     for (const u of c.subs) {
-      const rows = TUM.map((_, i) => i).filter(i => TUM[i].sec === c.id && TUM[i].sub === u);
+      const rows = D.map((_, i) => i).filter(i => D[i].sec === c.id && D[i].sub === u);
       if (c.subs.length > 1) {
         const [name, , hint] = S.sub[c.id + '.' + u];
         h += `<div class="subsec"><h3>${name}</h3><span class="cnt">${S.count(rows.length)}</span>${hint ? `<span class="hint">${hint}</span>` : ''}</div>`;
       }
-      h += rows.map((i, k) => rowTum(i, k + 1, rows.length)).join('');
+      h += rows.map((i, k) => rowSys(key, i, k + 1, rows.length)).join('');
     }
     h += '</section>';
   }
-  document.getElementById('panel-tum').innerHTML = h;
+  document.getElementById('panel-' + key).innerHTML = h;
 }
 
 /* ---------- Language ---------- */
@@ -717,7 +863,8 @@ function paintLang() {
   for (const b of document.querySelectorAll('[data-set-lang]')) b.setAttribute('aria-pressed', b.dataset.setLang === lang);
   renderCharts();
   renderActions();
-  renderTum();
+  renderSys('tum');
+  renderSys('petch');
 }
 function setLang(next) {
   if (next === lang) return;
@@ -745,7 +892,7 @@ function setLang(next) {
 for (const b of document.querySelectorAll('[data-set-lang]')) b.addEventListener('click', () => setLang(b.dataset.setLang));
 
 /* ---------- Tabs ---------- */
-const TABS = ['charts', 'actions', 'tum'];
+const TABS = ['charts', 'actions', 'tum', 'petch'];
 function show(name, focus) {
   for (const t of TABS) {
     const on = t === name, b = document.getElementById('tab-' + t);
@@ -760,6 +907,7 @@ function fromHash() {
   const id = location.hash.slice(1);
   if (id === 'actions' || id.startsWith('a-')) show('actions');
   else if (id === 'tum' || id.startsWith('t-') || id.startsWith('tum-')) show('tum');
+  else if (id === 'petch' || id.startsWith('p-') || id.startsWith('petch-')) show('petch');
   else show('charts');
   const el = id && document.getElementById(id);
   if (el && (el.classList.contains('grp') || el.classList.contains('row'))) el.scrollIntoView();
@@ -769,6 +917,7 @@ for (const el of document.querySelectorAll('.total-n')) el.textContent = ROWS.le
 document.getElementById('n-charts').textContent = ROWS.length;
 document.getElementById('n-actions').textContent = ACTIONS.map(a => n(r => r[6] === a)).join(' · ');
 document.getElementById('n-tum').textContent = TUM.length;
+document.getElementById('n-petch').textContent = PETCH.length;
 for (const t of TABS) {
   const b = document.getElementById('tab-' + t);
   b.addEventListener('click', () => { show(t); history.replaceState(null, '', '#' + t); });
